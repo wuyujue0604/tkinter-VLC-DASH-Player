@@ -2,17 +2,20 @@ import os, platform , time , add_information , cmd_process
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
-import ctypes
 
-myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string(任意字符串)
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)#在工作列顯是我的icon
+import platform
+
+if platform.system() == 'Windows':
+    import ctypes
+    myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string(任意字符串)
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)#在工作列顯是我的icon
 
 # 設置VLC庫路徑，需在import vlc之前
 os.environ['PYTHON_VLC_MODULE_PATH'] = "./vlc/"
 
 import vlc
-mypath="http://180.218.7.38/4.mpd"
-old_mypath = "http://180.218.7.38/4.mpd"
+mypath="http://180.218.7.38/1.mpd"
+old_mypath = "http://180.218.7.38/1.mpd"
 vol = 100
 mode = 0
 loop = False

@@ -2,17 +2,18 @@ import os, platform , time
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
-import ctypes
 
-myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string(任意字符串)
-ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)#在工作列顯是我的icon
+if platform.system() == 'Windows':
+    import ctypes
+    myappid = 'mycompany.myproduct.subproduct.version' # arbitrary string(任意字符串)
+    ctypes.windll.shell32.SetCurrentProcessExplicitAppUserModelID(myappid)#在工作列顯是我的icon
 
 # 設置VLC庫路徑，需在import vlc之前
 os.environ['PYTHON_VLC_MODULE_PATH'] = "./vlc/"
 
 import vlc
-mypath="http://180.218.7.38/4.mpd"
-old_mypath = "http://180.218.7.38/4.mpd"
+mypath="http://180.218.7.38/1.mpd"
+old_mypath = "http://180.218.7.38/1.mpd"
 vol = 100
 mode = 0
 loop = False
@@ -137,7 +138,6 @@ class App(tk.Tk):
         self.title("10366073-吳智偉-網際網路技術期末專案")
         self.iconphoto(False, tk.PhotoImage(file='./icon.png'))
         self.geometry("1440x768+0+0")
-        self.Tree_view()
         self.search_view()
         self.create_video_view()
         self.timer()
@@ -158,27 +158,7 @@ class App(tk.Tk):
         
         tk.Button(search_frame, text="搜尋" , command=self.get_search_word).pack(side=tk.LEFT, ipadx=20, padx=10, expand = 0)
         
-        tk.Button(search_frame, text="影片上傳" , command=lambda: self.click(4)).pack(side=tk.LEFT, expand = 0)
-        
         search_frame.pack(fill='both', expand = 0)
-        
-    def Tree_view(self):
-        global tree
-    
-        area=('影片名稱','歌手')
-        ac=('影片名稱','歌手')
-        tree = ttk.Treeview(self,columns=ac,show='headings')
-        for i in range(2):
-            tree.column(ac[i],width=150,anchor='e')
-            tree.heading(ac[i],text=area[i])
-
-        scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
-        tree.configure(yscroll=scrollbar.set)
-        
-        scrollbar.pack(side=tk.RIGHT , fill = 'both', expand = 0)
-        tree.pack(side=tk.RIGHT , fill = 'both', expand = 0)
-        
-        tree.bind('<<TreeviewSelect>>',self.select)
         
     def select(self , *args):
         global tree , mypath
@@ -254,70 +234,6 @@ class App(tk.Tk):
         Total_time.pack(side=tk.RIGHT, fill='x', expand = 0) #顯示影片總長度   
         frame.pack(fill='both', expand = 0)
 
-#-----------------------------------------------------影片上傳視窗----------------------------------------------------------------#
-
-    def upload_video_information(self):
-        self.top_level = tk.Toplevel()
-        self.top_level.title("影片上傳")
-        self.top_level.geometry("600x200+0+0")  
-        self.top_level.resizable(0, 0)
-        self.upload_video_input_view()
-        return self.top_level
-        
-    def upload_video_input_view(self):
-        global myentryname1 , myentryname2 , myentryname3
-        
-        upload_video_input_frame1 = tk.Frame(self.top_level)
-        
-        self.name1 = tk.Label(upload_video_input_frame1, text="影片名稱 ： ").pack(side=tk.LEFT, fill='x')
-        
-        myentryname1=tk.Entry(upload_video_input_frame1 , width=75)
-        
-        #-----------------------------------------------------------------------------------------------------#
-        
-        upload_video_input_frame2 = tk.Frame(self.top_level)
-        self.name2 = tk.Label(upload_video_input_frame2, text="影片路徑 ： ").pack(side=tk.LEFT, fill='x')
-        
-        myentryname2=tk.Entry(upload_video_input_frame2 , width=75)
-        
-        #-----------------------------------------------------------------------------------------------------#
-        
-        upload_video_input_frame3 = tk.Frame(self.top_level)
-        self.name2 = tk.Label(upload_video_input_frame3, text="歌手資訊 ： ").pack(side=tk.LEFT, fill='x')
-        
-        myentryname3=tk.Entry(upload_video_input_frame3 , width=75)
-        
-        #-----------------------------------------------------------------------------------------------------#
-
-        upload_video_input_frame4 = tk.Frame(self.top_level)
-        
-        check_btn=tk.Button(upload_video_input_frame4, text="確認輸入" , command=self.upload_video_process)
-        
-        #login=tk.Button(upload_video_input_frame4, text="註冊IP" )
-        
-        
-        #---------------------------------upload_video_input_view 按鍵位置配置----------------------------------------------#
-        myentryname1.pack(side=tk.LEFT, ipadx=20, padx=10, pady=10)
-        myentryname2.pack(side=tk.LEFT, ipadx=20, padx=10, pady=10)
-        myentryname3.pack(side=tk.LEFT, ipadx=20, padx=10, pady=10)
-        check_btn.pack(side=tk.LEFT, ipadx=30, padx=20, pady=20)
-        #login.pack(side=tk.RIGHT, ipadx=30, padx=20, pady=20)
-        
-        upload_video_input_frame1.pack(fill='x')
-        upload_video_input_frame2.pack(fill='x')
-        upload_video_input_frame3.pack(fill='x')
-        upload_video_input_frame4.pack(fill='x')
-        
-    def upload_video_process(self):
-        title = myentryname1.get()
-        data_path = myentryname2.get()
-        Author = myentryname3.get()
-        if data_path != "" and Author !="" and title !="":
-            cmd_process.upload(data_path , Author , title)
-            messagebox.showinfo('上傳完成', "影片名稱:{0}\n歌手:{1}".format(title , Author))
-        else:
-            messagebox.showerror('上傳錯誤', '欄位有空白，請檢查後再送一次!')
-        
         
 #-----------------------------------------------------處理程序----------------------------------------------------------------#
     def OnTick(self):
@@ -352,20 +268,9 @@ class App(tk.Tk):
 
     def get_search_word(self):#取得搜尋文字
         global myentry , mypath , tree , video_name , web_name , Author_name
-        tree.delete(*tree.get_children())
         if myentry.get() != '':
-            search_word = myentry.get()
-            x = add_information.search_video(search_word)
-            if x == "NULL":
-                messagebox.showwarning('搜尋錯誤', '找不到')
-            else:
-                #print(x)
-                video_name = x[0] 
-                web_name = x[1]
-                Author_name = x[2]  
-                for i in range(len(video_name)):
-                    contacts = ( video_name[i] , Author_name[i])
-                    tree.insert('', tk.END,  values=contacts)
+            mypath = myentry.get()
+            messagebox.showinfo('載入完成', "載入完成")
 
     def t2s(self,sec):#將毫秒轉乘hh:mm:ss
         m, s = divmod(sec, 60)
