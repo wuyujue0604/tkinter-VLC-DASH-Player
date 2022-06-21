@@ -1,3 +1,10 @@
 1.安裝python 模組 pip install python-vlc ，pip install pymysql
 
-2.執行play_video.py，並按下播放鍵(內有預設影片)
+2.需要自行建立MySQL資料庫，並上傳資料
+
+3.建立能讓DASH Player播放的影片，並改寫右側網址http://[你的固定IP]/[你設定的名稱].mpd
+
+4.修改play_video.py中第16行及第17行的網址為上一步所建立的
+
+參考資料：
+https://www.twblogs.net/a/5cc23ff3bd9eee3aed78a772
