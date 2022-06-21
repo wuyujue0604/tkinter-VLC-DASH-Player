@@ -1,4 +1,4 @@
-import os, platform , time , add_information , cmd_process
+import os, platform , time
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
