@@ -1,3 +1,10 @@
+'''
+
+10366073-Henry Wu 銘傳大學資訊工程學系研究所
+
+'''
+
+
 import os, platform , time , add_information , cmd_process
 import tkinter as tk
 import tkinter.ttk as ttk
