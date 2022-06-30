@@ -172,7 +172,7 @@ class App(tk.Tk):
         ac=('影片名稱','歌手')
         tree = ttk.Treeview(self,columns=ac,show='headings')
         for i in range(2):
-            tree.column(ac[i],width=150,anchor='e')
+            tree.column(ac[i],width=110,anchor='e')
             tree.heading(ac[i],text=area[i])
 
         scrollbar = ttk.Scrollbar(self, orient=tk.VERTICAL, command=tree.yview)
@@ -413,9 +413,11 @@ class App(tk.Tk):
     def play_new(self):      
         global var_tk , volume
         self.player.play(mypath)#讀取網址
-        volume = self.player.get_volume()
-        self.player.set_volume(volume)
-        var_tk.set(volume)
+        v = self.player.get_volume()
+        self.change_vol(v)
+        #self.player.set_volume(v)
+        #var_tk.set(v)
+        
         time.sleep(0.5)#暫停0.5sec讀取
         self.get_total_time()#得到影片總長度
         self.get_now_time()#得到現在影片播放時間
