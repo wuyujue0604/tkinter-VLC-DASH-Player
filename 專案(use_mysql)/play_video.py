@@ -6,11 +6,12 @@
 
 
 import os, platform , time , add_information , cmd_process
+import vlc
+import platform
 import tkinter as tk
 import tkinter.ttk as ttk
 from tkinter import messagebox
 
-import platform
 
 if platform.system() == 'Windows':
     import ctypes
@@ -20,7 +21,7 @@ if platform.system() == 'Windows':
 # 設置VLC庫路徑，需在import vlc之前
 os.environ['PYTHON_VLC_MODULE_PATH'] = "./vlc/"
 
-import vlc
+
 mypath="http://180.218.7.38/1.mpd"
 old_mypath = "http://180.218.7.38/1.mpd"
 vol = 100
